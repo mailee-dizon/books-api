@@ -3,9 +3,12 @@ import { ENV } from './config/env.js'
 import { sql } from './config/db.js'
 import usersRoute from '../routes/usersRoute.js'
 import userBooksRoute from '../routes/userBooksRoute.js'
+import job from './config/cron.js'
 
 const app = express()
 app.use(express.json())
+
+job.start()
 
 const PORT = ENV.PORT
 
