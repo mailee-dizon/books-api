@@ -2,15 +2,15 @@ import { sql } from "../src/config/db.js";
 
 export async function addBooks(req, res) {
     try {
-        const { user_id, isbn, status } = req.body
+        const { user_id, work, status } = req.body
 
-        if (!user_id || !isbn || !status) {
+        if (!user_id || !work || !status) {
             return res.status(400).json({ message: "All fields must be completed" })
         }
 
         const books = await sql`
-            INSERT INTO user_books(user_id, isbn, status)
-            VALUES (${user_id}, ${isbn}, ${status})
+            INSERT INTO user_books(user_id, work, status)
+            VALUES (${user_id}, ${work}, ${status})
             RETURNING *
         `
 
@@ -94,7 +94,7 @@ export async function getCurrentReadByUsername(req, res) {
     }
 }
 
-export async function getAllUserBooks(req, res) {
+export async function getUsersBooks(req, res) {
     try {
         const { user_id } = req.params
 
@@ -108,7 +108,7 @@ export async function getAllUserBooks(req, res) {
     } catch (error) {
         console.log("Error getting users currently reading", error)
         res.status(500).json({error:"Something went wrong"});  
-    } 
+    }
 }
 
 export async function removeBook(req, res) {

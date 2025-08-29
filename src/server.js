@@ -1,4 +1,3 @@
-
 import express from 'express'
 import { ENV } from './config/env.js'
 import { sql } from './config/db.js'
