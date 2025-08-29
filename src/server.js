@@ -59,8 +59,8 @@ app.use("/api/userBooks", userBooksRoute)
 
 
 initDB().then(()=> {
-    app.listen(800, () => {
-        console.log("SERVER RUNNING ON PORT:", 800)
+    app.listen(PORT, () => {
+        console.log("SERVER RUNNING ON PORT:", PORT)
     })
 })
 
