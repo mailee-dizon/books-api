@@ -1,3 +1,4 @@
+
 import express from 'express'
 import { ENV } from './config/env.js'
 import { sql } from './config/db.js'
@@ -27,7 +28,7 @@ async function initDB() {
         await sql`CREATE TABLE IF NOT EXISTS user_books(
             id SERIAL PRIMARY KEY,
             user_id INT NOT NULL,
-            book_title VARCHAR(255),
+            work VARCHAR(255),
             added_date DATE NOT NULL DEFAULT CURRENT_DATE,
             status STATUS NOT NULL,
             CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users (id)
@@ -50,7 +51,7 @@ async function initDB() {
     }
 }
 
-app.get("/api/test", (req, res) => {
+app.get("/api/health", (req, res) => {
     res.status(200).json({success: true})
 })
 
