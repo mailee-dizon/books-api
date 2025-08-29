@@ -27,7 +27,7 @@ async function initDB() {
         await sql`CREATE TABLE IF NOT EXISTS user_books(
             id SERIAL PRIMARY KEY,
             user_id INT NOT NULL,
-            isbn VARCHAR(13),
+            book_title VARCHAR(255),
             added_date DATE NOT NULL DEFAULT CURRENT_DATE,
             status STATUS NOT NULL,
             CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users (id)
@@ -54,13 +54,17 @@ app.get("/api/health", (req, res) => {
     res.status(200).json({success: true})
 })
 
+app.get("/api/test", (req, res) => {
+    res.status(200).json({success: true})
+})
+
 app.use("/api/users", usersRoute)
 app.use("/api/userBooks", userBooksRoute)
 
 
 initDB().then(()=> {
-    app.listen(PORT, () => {
-        console.log("SERVER RUNNING ON PORT:", PORT)
+    app.listen(800, () => {
+        console.log("SERVER RUNNING ON PORT:", 800)
     })
 })
 

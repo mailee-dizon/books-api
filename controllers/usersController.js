@@ -17,6 +17,20 @@ export async function getUserByUsername(req, res) {
     }
 }
 
+export async function getAllUsers(req, res) {
+    try {
+        const users = await sql`
+            SELECT * FROM users
+            ORDER BY created_at DESC
+        `
+
+        res.status(201).json(users)
+    } catch (error) {
+        console.log("Error getting user", error)
+        res.status(500).json({error:"Something went wrong"});
+    }
+}
+
 export async function createUser(req, res) {
     try {
         const { username, firstname, lastname, bio, pfp } = req.body;
