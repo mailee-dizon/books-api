@@ -50,10 +50,6 @@ async function initDB() {
     }
 }
 
-app.get("/api/health", (req, res) => {
-    res.status(200).json({success: true})
-})
-
 app.get("/api/test", (req, res) => {
     res.status(200).json({success: true})
 })
