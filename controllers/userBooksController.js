@@ -23,17 +23,17 @@ export async function addBooks(req, res) {
 
 export async function changeBookStatus(req, res) {
     try {
-        const { user_id } = req.params
-        const { isbn, status } = req.body
+        const { user_id, work } = req.params
+        const { status } = req.body
         
-        if (!user_id || !isbn || !status) {
+        if (!user_id || !work || !status) {
             return res.status(400).json({ message: "All fields must be completed" })
         }
 
         const books = await sql`
             UPDATE user_books
             SET status = ${status}
-            WHERE user_id = ${user_id} AND isbn = ${isbn}
+            WHERE user_id = ${user_id} AND work = ${work}
             RETURNING *
         `
         res.status(201).json(books)
@@ -113,16 +113,15 @@ export async function getUsersBooks(req, res) {
 
 export async function removeBook(req, res) {
     try {
-        const { user_id } = req.params
-        const { isbn } = req.body
+        const { user_id, work } = req.params
 
-        if (!isbn) {
+        if (!work) {
             res.status(400).json({ message: "Need a book" })
         }
 
         const book = await sql`
             DELETE FROM user_books
-            WHERE user_id = ${user_id} AND isbn = ${isbn}
+            WHERE user_id = ${user_id} AND work = ${work}
             RETURNING *
         `
         if (book.length === 0) {

@@ -3,10 +3,11 @@ import { sql } from "../src/config/db.js"
 export async function getUserByUsername(req, res) {
     try {
         const { username } = req.params
+        console.log(username)
 
         const user = await sql`
             SELECT * FROM users 
-            WHERE username = ${username}
+            WHERE user_id = ${username}
             ORDER BY created_at DESC 
         `
 
@@ -33,15 +34,15 @@ export async function getAllUsers(req, res) {
 
 export async function createUser(req, res) {
     try {
-        const { username, firstname, lastname, bio, pfp } = req.body;
+        const { userId, username, firstname, lastname, bio, pfp } = req.body;
 
-        if (!username || !firstname || !lastname) {
+        if (!userId || !username || !firstname || !lastname) {
             return res.status(400).json({ message: "Username, first name, and last name are required" })
         }
 
         const user = await sql`
-            INSERT INTO users(username, first_name, last_name, bio, pfp)
-            VALUES (${username}, ${firstname}, ${lastname}, ${bio}, ${pfp})
+            INSERT INTO users(user_id, username, first_name, last_name, bio, pfp)
+            VALUES (${userId}, ${username}, ${firstname}, ${lastname}, ${bio}, ${pfp})
             RETURNING *
         `
         res.status(201).json(user);
@@ -49,6 +50,10 @@ export async function createUser(req, res) {
         console.log("Error adding user", error)
         res.status(500).json({error:"Something went wrong"});        
     }
+}
+
+export async function addUserId(req, res) {
+
 }
 
 export async function deleteUser(req, res) {
@@ -74,5 +79,28 @@ export async function deleteUser(req, res) {
     } catch (error) {
         console.log("Error deleting user", error)
         res.status(500).json({error:"Something went wrong"});   
+    }
+}
+
+export async function editUser(req, res) {
+    try {
+        const { id } = req.params
+        const { username, first_name, last_name, bio, pfp } = req.body
+
+        const user = await sql`
+            UPDATE users
+            SET username = ${username},
+            first_name = ${first_name},
+            last_name = ${last_name},
+            bio = ${bio},
+            pfp = ${pfp}
+            WHERE user_id = ${id}
+            RETURNING *
+        `
+
+        res.status(201).json(user)
+    } catch (error) {
+        console.error("Error updating profile", error)
+        res.status(500).json({ error: "Error editing profile" })
     }
 }

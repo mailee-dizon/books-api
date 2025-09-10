@@ -16,6 +16,7 @@ async function initDB() {
     try {
         await sql`CREATE TABLE IF NOT EXISTS users(
             id SERIAL PRIMARY KEY,
+            user_id VARCHAR(255) NOT NULL UNIQUE,
             username VARCHAR(20) UNIQUE,
             first_name VARCHAR(255) NOT NULL,
             last_name VARCHAR(255) NOT NULL,
