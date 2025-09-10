@@ -12,6 +12,7 @@ export async function getUserByUsername(req, res) {
         `
 
         res.status(201).json(user)
+        console.log(user)
     } catch (error) {
         console.log("Error getting user", error)
         res.status(500).json({error:"Something went wrong"});    
@@ -50,10 +51,6 @@ export async function createUser(req, res) {
         console.log("Error adding user", error)
         res.status(500).json({error:"Something went wrong"});        
     }
-}
-
-export async function addUserId(req, res) {
-
 }
 
 export async function deleteUser(req, res) {
